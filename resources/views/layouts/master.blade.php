@@ -73,6 +73,7 @@
                             </p>
                         </router-link>
                     </li>
+                    @can('isAdmin')
 
                     <li class="nav-item">
                         <router-link to="/users" class="nav-link">
@@ -82,7 +83,8 @@
                             </p>
                         </router-link>
                     </li>
-                    @can('isAdmin')
+                    @endcan
+
                     <li class="nav-item">
                         <router-link to="/profile" class="nav-link">
                             <i class="nav-icon fas fa-user-alt"></i>
@@ -91,30 +93,23 @@
                             </p>
                         </router-link>
                     </li>
-                    @endcan
+
+                    <li class="nav-item">
+                        <router-link to="/blogs" class="nav-link">
+                            <i class="nav-icon fas fa-paper-plane"></i>
+                            <p>
+                                Blogs
+                            </p>
+                        </router-link>
+                    </li>
 
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link ">
-                            <i class="nav-icon fas fa-cog"></i>
+                            <i class="nav-icon fas fa-comment"></i>
                             <p>
-                                Management
-                                <i class="right fa fa-angle-left"></i>
+                                Messenger
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link ">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Active Page</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="fa fa-circle-o nav-icon"></i>
-                                    <p>Inactive Page</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}"

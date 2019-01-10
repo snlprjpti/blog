@@ -22,3 +22,27 @@ $factory->define(App\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Blog::class, function (Faker $faker) {
+
+   $id = rand(3,45);
+    return [
+        'title' => $faker->sentence,
+        'description' => $faker->jobTitle,
+        'published_date' => $faker->date('y-m-d'),
+        'user_id' => $id,
+    ];
+});
+
+$factory->define(App\Message::class, function (Faker $faker) {
+    do{
+        $from = rand(1,15);
+        $to = rand(1,15);
+    }
+    while($from == $to);
+    return [
+        'from' => $from,
+        'to' => $to,
+        'message' => $faker->sentence,
+    ];
+});

@@ -47,7 +47,7 @@
                                            <option value="">Select User Type</option>
                                            <option value="admin">Admin</option>
                                            <option value="user">User</option>
-                                           <option value="otheruser">Other User</option>
+                                           <option value="author">Author</option>
                                        </select>
                                         <has-error :form="form" field="type"></has-error>
                                     </div>
@@ -78,7 +78,7 @@
                                 <th>Registered At</th>
                                 <th>Modify</th>
                             </tr>
-                            <tr v-for="user in users" >
+                            <tr v-for="user in users.data" i="index">
                                 <td>{{user.id}}</td>
                                 <td>{{user.name | upText}}</td>
                                 <td>{{user.email}}</td>
@@ -95,7 +95,14 @@
                                 </td>
                             </tr>
                             </tbody>
+
                         </table>
+                    </div>
+                    <div class="card-footer">
+                        <pagination :data="users" @pagination-change-page="getResults">
+                            <span slot="prev-nav">&lt; Previous</span>
+                            <span slot="next-nav" >Next &gt;</span>
+                        </pagination>
                     </div>
                 </div>
             </div>
@@ -122,6 +129,13 @@
             }
         },
         methods: {
+            getResults(page = 1) {
+                axios.get('api/user?page=' + page)
+                    .then(response => {
+                    this.users = response.data;
+            });
+            },
+
             newModal(){
                 this.editmode = false;
                 this.form.reset();
@@ -161,7 +175,7 @@
             },
 
             loadUsers(){
-                axios.get('api/user').then(({ data }) => (this.users = data.data));
+                axios.get('api/user').then(({ data }) => (this.users = data));
             },
 
             createUser() {

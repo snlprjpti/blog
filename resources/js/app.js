@@ -25,9 +25,10 @@ window.swal = swal;
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue') },
     { path: '/profile', component: require('./components/Profile.vue') },
-    { path: '/users', component: require('./components/Users.vue') }
-]
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+    { path: '/users', component: require('./components/Users.vue') },
+    { path: '/blogs', component: require('./components/Blogs.vue') },
+    { path: '/:id', component: require('./components/BlogDetail.vue'),name: 'blogView' }
+] 
 
 const router = new VueRouter({
     routes, // short for `routes: routes`
@@ -37,6 +38,10 @@ const router = new VueRouter({
 
 Vue.filter('upText', function(text){
 return text.charAt(0).toUpperCase()+ text.slice(1)
+});
+
+Vue.filter('strLimit', function(text){
+return text.slice(0,20)
 });
 
 Vue.filter('dateFormat', function(date){
@@ -71,6 +76,8 @@ const toast = swal.mixin({
 window.toast = toast;
 
 Vue.use(VueProgressBar, options)
+
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 const app = new Vue({
     el: '#app',

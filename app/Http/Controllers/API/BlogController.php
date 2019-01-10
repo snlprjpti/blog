@@ -2,33 +2,47 @@
 
 namespace App\Http\Controllers\API;
 
-use App\User;
-use Illuminate\Support\Facades\Gate;
+use App\Blog;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
-class UserController extends Controller
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function __construct()
     {
         $this->middleware('auth:api');
-        $this->middleware(function ($request, $next) {
-            if(Gate::allows('isAdmin')){
-                return $next($request);
-            }
-            abort(401);
-        });
+//        $this->middleware(function ($request, $next) {
+//            if(Gate::allows('isAdmin')){
+//                return $next($request);
+//            }
+//            abort(401);
+//        });
     }
 
     public function index()
     {
-        return User::latest()->paginate(10);
+        if(Gate::allows('isAdmin')){
+            return Blog::latest()->paginate(10);
+        }
+        return Blog::where('user_id',Auth::user()->id)->latest()->paginate(5);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -39,18 +53,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-           'name' => 'required',
-           'email' => 'required|unique:users',
-           'password' => 'required',
-        ]);
-        return User::create([
-           'name' => $request['name'],
-           'email' => $request['email'],
-           'bio' => $request['bio'],
-           'password' => Hash::make($request['password']),
-           'type' => $request['type']
-        ]);
+        //
     }
 
     /**
@@ -60,6 +63,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+    {
+        return Blog::find($id);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
         //
     }
@@ -73,13 +87,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-        $this->validate($request,[
-            'name' => 'required',
-            'email' => 'required|unique:users,email,'.$user->id,
-            'password' => 'sometimes',
-        ]);
-        $user->update($request->all());
+        //
     }
 
     /**
@@ -90,8 +98,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
-        $this->authorize('isAdmin');
-        $user->delete();
+        //
     }
 }
