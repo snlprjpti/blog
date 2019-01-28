@@ -13,7 +13,7 @@ class Blog extends Model
         'title','description','published_date', 'user_id'
     ];
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

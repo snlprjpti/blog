@@ -28,6 +28,7 @@
         "vform": "^1.0.0",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.0.2",
+        "vue2-editor": "^2.6.6",
         "vuetable": "^1.5.12"
     }
 }

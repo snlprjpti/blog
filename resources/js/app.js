@@ -11,30 +11,48 @@ window.Vue = require('vue');
 import { Form, HasError, AlertError } from 'vform'
 
 window.Form = Form;
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
-Vue.use(VueRouter)
+Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);
+window.Vue.use(VueRouter);
 
-import VueRouter from 'vue-router'
-import moment from 'moment'
-import VueProgressBar from 'vue-progressbar'
-import swal from 'sweetalert2'
+import VueRouter from 'vue-router';
+import moment from 'moment';
+import VueProgressBar from 'vue-progressbar';
+import swal from 'sweetalert2';
+import { VueEditor, Quill } from 'vue2-editor';
+import createBlog from './components/blogs/createBlog.vue';
+
 window.swal = swal;
 
-
-let routes = [
+const routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue') },
     { path: '/profile', component: require('./components/Profile.vue') },
     { path: '/users', component: require('./components/Users.vue') },
-    { path: '/blogs', component: require('./components/Blogs.vue') },
-    { path: '/:id', component: require('./components/BlogDetail.vue'),name: 'blogView' }
-] 
+    { path: '/author', component: require('./components/passport/index.vue') },
+    { path: '/blogs', component: require('./components/blogs/Blogs.vue'), name:'blogsIndex' },
+    { path: '/blogs/create', component: createBlog, name: 'createBlog' },
+    { path: '/blogs/:id', component: require('./components/blogs/BlogDetail.vue'),name: 'blogView' },
+    { path: '/blogs/edit/:id', component: require('./components/blogs/BlogEdit.vue'),name: 'blogEdit' }
+]
+
+Vue.component(
+    'passport-clients',
+    require('./components/passport/Clients.vue')
+);
+
+Vue.component(
+    'passport-authorized-clients',
+    require('./components/passport/AuthorizedClients.vue')
+);
+
+Vue.component(
+    'passport-personal-access-tokens',
+    require('./components/passport/PersonalAccessTokens.vue')
+);
 
 const router = new VueRouter({
-    routes, // short for `routes: routes`
-     mode: 'history'
+    routes // short for `routes: routes`
 })
-
 
 Vue.filter('upText', function(text){
 return text.charAt(0).toUpperCase()+ text.slice(1)

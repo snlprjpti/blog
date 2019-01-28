@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Blog;
+use App\Http\Requests\BlogRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -51,9 +53,11 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
-        //
+        $request['user_id'] = Auth::user()->id;
+        $request['published_date'] = Carbon::now();
+        return Blog::create($request->all());
     }
 
     /**
@@ -64,7 +68,7 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        return Blog::find($id);
+        return Blog::with('author')->find($id);
     }
 
     /**
@@ -87,7 +91,8 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $blog = Blog::find($id);
+        $blog->update($request->all());
     }
 
     /**
@@ -98,6 +103,7 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $blog = Blog::find($id);
+        $blog->delete();
     }
 }

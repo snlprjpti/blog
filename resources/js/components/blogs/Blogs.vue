@@ -4,9 +4,9 @@
             <div class="col-md-12">
                 <div class="card card-default">
                     <div class="card-header">Blogs
-                        <a type="button" style="float:right" class="btn btn-primary">
+                        <router-link :to="{name: 'createBlog'}" type="button" style="float:right" class="btn btn-primary">
                             <i class="fa fa-user-plus"></i> Add
-                        </a>
+                        </router-link>
                     </div>
 
                     <div class="card-body">
@@ -28,11 +28,11 @@
                                                 <i class="fa fa-eye"></i>
                                         </router-link>
 
-                                        <a href="#" class="btn btn-outline-primary btn-sm">
+                                        <router-link :to="{name: 'blogEdit', params:{id: blog.id}}"  class="btn btn-outline-primary btn-sm">
                                             <i class="fa fa-pen"></i>
-                                        </a>
+                                        </router-link>
 
-                                        <a href="#" class="btn btn-outline-danger btn-sm">
+                                        <a href="#" @click="deleteBlog(blog.id)" class="btn btn-outline-danger btn-sm">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -71,9 +71,37 @@
             loadBlogs(){
                 axios.get('api/blogs').then(({ data }) => (this.blogs = data));
             },
+
+            deleteBlog(id){
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if(result.value){
+                    axios.delete('api/blogs/' +id).then(()=>{
+                        swal(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                )
+                    Fire.$emit('afterCreate');
+                }).catch(()=>{
+                        swal("failed", "Something went wrong","warning");
+                })
+                }
+            })
+            },
         },
         mounted() {
             this.loadBlogs();
+            Fire.$on('afterCreate',() => {
+                this.loadBlogs();
+        });
         }
     }
 </script>

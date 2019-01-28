@@ -95,6 +95,15 @@
                     </li>
 
                     <li class="nav-item">
+                        <router-link to="/author" class="nav-link">
+                            <i class="nav-icon fas fa-user-astronaut"></i>
+                            <p>
+                                Author
+                            </p>
+                        </router-link>
+                    </li>
+
+                    <li class="nav-item">
                         <router-link to="/blogs" class="nav-link">
                             <i class="nav-icon fas fa-paper-plane"></i>
                             <p>
