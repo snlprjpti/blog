@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Gate;
 
 class BlogController extends Controller
@@ -20,7 +21,7 @@ class BlogController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api');
+//        $this->middleware(['auth:api','APIToken']);
 //        $this->middleware(function ($request, $next) {
 //            if(Gate::allows('isAdmin')){
 //                return $next($request);
@@ -31,6 +32,7 @@ class BlogController extends Controller
 
     public function index()
     {
+
         if(Gate::allows('isAdmin')){
             return Blog::latest()->paginate(10);
         }

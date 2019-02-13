@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\User;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,13 +18,14 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
-        $this->middleware(function ($request, $next) {
-            if(Gate::allows('isAdmin')){
-                return $next($request);
-            }
-            abort(401);
-        });
+//        dd(Cookie::get('token'));
+        $this->middleware(['auth:api','APIToken']);
+//        $this->middleware(function ($request, $next) {
+//            if(Gate::allows('isAdmin')){
+//                return $next($request);
+//            }
+//            abort(401);
+//        });
     }
 
     public function index()
@@ -94,4 +96,10 @@ class UserController extends Controller
         $this->authorize('isAdmin');
         $user->delete();
     }
+
+    public function map()
+    {
+
+    }
+
 }

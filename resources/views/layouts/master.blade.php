@@ -9,7 +9,6 @@
     <title>Blog</title>
 
     <link rel="stylesheet" href="/css/app.css">
-
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper" id="app">
@@ -169,5 +168,7 @@
 <script src="/js/app.js">
 
 </script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </body>
 </html>
